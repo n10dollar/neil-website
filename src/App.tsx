@@ -1,11 +1,11 @@
 import NavBar from "./components/universal/NavBar.tsx";
-import Footer from "./components/universal/Footer.tsx";
+import Background from "./components/home/background.tsx";
 
 const App = () => {
     return (
         <>
             <NavBar />
-            <Footer />
+            <Background />
         </>
     );
 };
