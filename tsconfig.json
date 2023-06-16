@@ -8,9 +8,12 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
       "assets/*": ["./src/assets/*"],
-      "stylesheets/*": ["./src/stylesheets/*"]
+      "components/*": ["./src/components/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "pages/*": ["./src/pages/*"],
+      "stylesheets/*": ["./src/stylesheets/*"],
+      "utils/*": ["./src/utils/*"],
     },
 
     /* Bundler mode */

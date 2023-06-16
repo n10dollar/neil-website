@@ -1,12 +1,8 @@
-import NavBar from "components/universal/NavBar.tsx";
-import Background2 from "components/home/Background2.tsx";
+import Home from "pages/Home.tsx";
 
 const App = () => {
     return (
-        <>
-            <NavBar />
-            <Background2 />
-        </>
+        <Home />
     );
 };
 
