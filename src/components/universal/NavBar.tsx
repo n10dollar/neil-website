@@ -1,4 +1,4 @@
-import {Button, ButtonGroup, Flex, HStack, IconButton, Image} from "@chakra-ui/react";
+import {Button, ButtonGroup, Flex, IconButton, Image} from "@chakra-ui/react";
 import Style from "src/style-config.json";
 
 interface Props {
@@ -21,10 +21,8 @@ const buttonProps = {
 const NavBar = ({pages, socials}: Props) => {
     return (
         <Flex justifyContent={"space-between"}>
-            <HStack>
-                <Image src="src/assets/sauron.png" boxSize={12} borderRadius={"full"} alt={"sauron"} />
-                <ButtonGroup>{pages.map(page => <Button {...buttonProps}>{page}</Button>)}</ButtonGroup>
-            </HStack>
+            <Image src="src/assets/sauron.png" boxSize={12} borderRadius={"full"} alt={"sauron"} />
+            <ButtonGroup spacing={30}>{pages.map(page => <Button {...buttonProps}>{page}</Button>)}</ButtonGroup>
             <ButtonGroup>{socials.map((social: Social) => <IconButton aria-label={social.name} icon={social.icon} />)}</ButtonGroup>
         </Flex>
     );

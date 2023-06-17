@@ -3,6 +3,8 @@ import Background from "components/home/Background.tsx";
 import Quote from "components/home/Quote.tsx";
 import {MdEmail} from "react-icons/md";
 import {BsInstagram, BsLinkedin} from "react-icons/bs";
+import Intro from "components/home/Intro.tsx";
+import Description from "components/home/Description.tsx";
 
 
 
@@ -20,6 +22,8 @@ const Home = () => {
             <NavBar pages={pages} socials={socials} />
             <Background />
             <Quote py={200}>{centerQuote}</Quote>
+            <Intro />
+            <Description />
         </>
     );
 };
