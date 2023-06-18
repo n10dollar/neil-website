@@ -16,7 +16,7 @@ const Description = () => {
     let left = true;
 
     return (
-        <SimpleGrid row={rowItems.length} p={5}>
+        <SimpleGrid row={rowItems.length}>
             {rowItems.map((rowItem, index) => (
                 <>
                     <Flex
@@ -24,6 +24,7 @@ const Description = () => {
                         justify={left ? "left" : "right"}
                         textAlign={left ? "left" : "right"}
                         bgImage={rowItem.image}
+                        px={5}
                         bgGradient={
                             left ? "linear(to-r, green.200, pink.500)"
                             : "linear(to-r, green.500, pink.200)"}
