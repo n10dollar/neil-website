@@ -1,7 +1,7 @@
 
 const Chess = () => {
     return (
-        <div>hi</div>
+        <div>Chess</div>
     );
 };
 

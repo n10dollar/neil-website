@@ -1,6 +1,6 @@
 import {Image, Heading, Wrap} from "@chakra-ui/react";
 
-const Intro = () => {
+const NamePic = () => {
     return (
         <Wrap
             flexDirection={"row"}
@@ -22,4 +22,4 @@ const Intro = () => {
     );
 };
 
-export default Intro;
+export default NamePic;

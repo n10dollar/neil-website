@@ -1,7 +1,7 @@
 
 const Software = () => {
     return (
-        <div>hi</div>
+        <div>Software</div>
     );
 };
 
