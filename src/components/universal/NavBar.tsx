@@ -1,8 +1,9 @@
 import {Box, Button, ButtonGroup, Flex, IconButton, Image} from "@chakra-ui/react";
+import {NavLink} from "react-router-dom";
 import Style from "src/style-config.json";
 
 interface Props {
-    pages: string[],
+    pages: {name: string, URL: string}[],
     socials: Social[]
 }
 
@@ -25,7 +26,7 @@ const NavBar = ({pages, socials}: Props) => {
             <ButtonGroup
                 flex={"0 1 0"}
                 spacing={30}>
-                {pages.map(page => <Button {...buttonProps}>{page}</Button>)}
+                {pages.map(({name, URL}) => <NavLink to={URL}><Button {...buttonProps}>{name}</Button></NavLink>)}
             </ButtonGroup>
             <Flex flex={"1 1 0"} justify="flex-end">
                 <ButtonGroup>{socials.map((social: Social) => <IconButton aria-label={social.name} icon={social.icon} />)}</ButtonGroup>

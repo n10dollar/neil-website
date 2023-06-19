@@ -8,7 +8,13 @@ import Description from "components/home/Description.tsx";
 
 
 
-const pages = ["Home", "Software", "Music", "Chess"]
+const pages = [
+    {name: "Home", URL: "/"},
+    {name: "Software", URL: "/software"},
+    {name: "Music", URL: "/music"},
+    {name: "Chess", URL: "/chess"}
+]
+
 const socials: Social[] = [
     {name: "Email", icon: <MdEmail />},
     {name: "LinkedIn", icon: <BsLinkedin />},
