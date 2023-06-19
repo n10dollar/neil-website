@@ -1,0 +1,30 @@
+{
+  "z": {"octave": "1", "note": "C"},
+  "s": {"octave": "1", "note": "C#"},
+  "x": {"octave": "1", "note": "D"},
+  "d": {"octave": "1", "note": "D#"},
+  "c": {"octave": "1", "note": "E"},
+
+  "v": {"octave": "1", "note": "F"},
+  "g": {"octave": "1", "note": "F#"},
+  "b": {"octave": "1", "note": "G"},
+  "h": {"octave": "1", "note": "G#"},
+  "n": {"octave": "1", "note": "A"},
+  "j": {"octave": "1", "note": "A#"},
+  "m": {"octave": "1", "note": "B"},
+
+
+  "q": {"octave": "2", "note": "C"},
+  "2": {"octave": "2", "note": "C#"},
+  "w": {"octave": "2", "note": "D"},
+  "3": {"octave": "2", "note": "D#"},
+  "e": {"octave": "2", "note": "E"},
+
+  "r": {"octave": "2", "note": "F"},
+  "5": {"octave": "2", "note": "F#"},
+  "t": {"octave": "2", "note": "G"},
+  "6": {"octave": "2", "note": "G#"},
+  "y": {"octave": "2", "note": "A"},
+  "7": {"octave": "2", "note": "A#"},
+  "u": {"octave": "2", "note": "B"}
+}

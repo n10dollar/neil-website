@@ -1,7 +1,11 @@
+import PianoKeyboard from "components/music/PianoKeyboard.tsx";
 
 const Music = () => {
     return (
-        <div>Music</div>
+        <>
+            <div>Music</div>
+            <PianoKeyboard />
+        </>
     );
 };
 
