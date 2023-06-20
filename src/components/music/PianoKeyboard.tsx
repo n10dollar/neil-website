@@ -9,6 +9,7 @@ const yStart = 20;
 
 const octaves = 2;
 const whiteKeysPerOctave = 7;
+const blackKeysPerOctave = 5;
 const keysPerOctave = 12;
 
 const whiteHeightWidthRatio = 6 / (7 / 8);
@@ -20,53 +21,59 @@ const blackKeyWidth = (60 * 4) / 7;
 const blackKeyHeight = blackKeyWidth * blackHeightWidthRatio;
 
 const PianoKeyboard = () => {
+  // const [whitePressed, setWhitePressed] = useState([
+  //   ...Array(octaves * whiteKeysPerOctave).fill(false),
+  // ]);
+  // const [blackPressed, setBlackPressed] = useState([
+  //   ...Array(octaves * blackKeysPerOctave).fill(false),
+  // ]);
+
   const [pressed, setPressed] = useState([
     ...Array(octaves * keysPerOctave).fill(false),
   ]);
 
   return (
     <Stage width={width} height={height}>
-      <Layer zIndex={0}>
-        {[...Array(octaves * whiteKeysPerOctave).keys()].map((key) => (
+      <Layer>
+        {[...Array(octaves * whiteKeysPerOctave)].map((_, index) => (
           <Rect
-            onClick={() =>
-              setPressed(
-                pressed.map((keyPressed, index) =>
-                  index === key ? true : keyPressed
-                )
-              )
+            onPointerClick={() =>
+              setWhitePressed(whitePressed.map((_, pIndex) => pIndex === index))
             }
-            x={xStart + key * whiteKeyWidth}
+            x={xStart + index * whiteKeyWidth}
             y={yStart}
             width={whiteKeyWidth}
             height={whiteKeyHeight}
-            fill={!pressed[key] ? "lightgray" : "blue"}
+            fill={!whitePressed[index] ? "lightgray" : "blue"}
             stroke={"black"}
             strokeWidth={1}
           />
         ))}
       </Layer>
-      <Layer zIndex={1}>
-        {[...Array(octaves * whiteKeysPerOctave).keys()].map((key) =>
-          (key + 5) % 7 === 0 || (key + 1) % 7 === 0 ? null : (
-            <Rect
-              onClick={() =>
-                setPressed(
-                  pressed.map((keyPressed, index) =>
-                    index === key ? true : keyPressed
-                  )
-                )
-              }
-              x={xStart + (key + 1) * whiteKeyWidth - blackKeyWidth / 2}
-              y={yStart}
-              width={blackKeyWidth}
-              height={blackKeyHeight}
-              fill={"black"}
-              stroke={"black"}
-              strokeWidth={1}
-            />
-          )
-        )}
+      <Layer>
+        {blackPressed.map((_, index) => (
+          <Rect
+            onPointerClick={() => {
+              setBlackPressed(blackPressed.map((_, index) => pIndex === index));
+              console.log(blackPressed);
+            }}
+            x={
+              xStart +
+              (index +
+                (Math.floor((index + 3) / 5) +
+                  Math.floor((index + 1) / 5) +
+                  1)) *
+                whiteKeyWidth -
+              blackKeyWidth / 2
+            }
+            y={yStart}
+            width={blackKeyWidth}
+            height={blackKeyHeight}
+            fill={!blackPressed[index] ? "black" : "blue"}
+            stroke={"black"}
+            strokeWidth={1}
+          />
+        ))}
       </Layer>
     </Stage>
   );
