@@ -1,8 +1,12 @@
-import PianoKeyboard from "components/music/PianoKeyboard.tsx";
+import PianoKeyboard, {
+  keyToNoteMap,
+} from "components/music/PianoKeyboard.tsx";
 import { Center } from "@chakra-ui/react";
+import keyToNote from "utils/piano-key-map.json";
 
-const keyClick = () => {
-  return { fill: "blue" };
+const keyPress = (keyID: number) => {
+  // console.log(keyID);
+  return { fill: "red" };
 };
 
 const Music = () => {
@@ -10,7 +14,12 @@ const Music = () => {
     <>
       <div>Music</div>
       <Center>
-        <PianoKeyboard whiteKeyWidth={60} onClick={keyClick} />
+        <PianoKeyboard
+          octaves={1}
+          whiteKeyWidth={60}
+          keyToNote={keyToNote as keyToNoteMap}
+          onPress={keyPress}
+        />
       </Center>
     </>
   );

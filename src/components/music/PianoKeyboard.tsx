@@ -1,17 +1,23 @@
 import { Layer, Rect, Stage } from "react-konva";
 import { useState } from "react";
+import { Box } from "@chakra-ui/react";
+
+export interface keyToNoteMap {
+  [key: symbol]: { id: number; octave: number; note: string };
+}
 
 interface Props {
+  octaves: number;
   whiteKeyWidth: number;
   whiteKeyColor?: string;
   blackKeyColor?: string;
-  onClick: () => NonNullable<unknown>;
+  keyToNote: keyToNoteMap;
+  onPress: (keyID: number) => NonNullable<unknown>;
 }
 
 const xStart = 0;
 const yStart = 0;
 
-const octaves = 2;
 const whiteKeysPerOctave = 7;
 const blackKeysPerOctave = 5;
 const keysPerOctave = 12;
@@ -42,55 +48,101 @@ const blackPosition = (key: number) => {
 };
 
 const PianoKeyboard = ({
+  octaves = 2,
   whiteKeyWidth,
   whiteKeyColor = "white",
   blackKeyColor = "black",
-  onClick,
+  keyToNote,
+  onPress,
 }: Props) => {
   const [pressed, setPressed] = useState([
     ...Array(octaves * keysPerOctave).fill(false),
   ]);
 
   const width = octaves * whiteKeysPerOctave * whiteKeyWidth;
-  const height = octaves * whiteKeyHeight;
+  const height = whiteKeyHeight;
 
   return (
-    <Stage width={width} height={height}>
-      <Layer>
-        {[...Array(octaves * whiteKeysPerOctave)].map((_, index) => (
-          <Rect
-            onPointerClick={() =>
-              setPressed(pressed.map((_, i) => i === whiteIndex(index)))
-            }
-            y={yStart}
-            width={whiteKeyWidth}
-            height={whiteKeyHeight}
-            fill={whiteKeyColor}
-            stroke={"black"}
-            strokeWidth={1}
-            x={xStart + whitePosition(index)}
-            {...(pressed[whiteIndex(index)] ? onClick() : null)}
-          />
-        ))}
-      </Layer>
-      <Layer>
-        {[...Array(octaves * blackKeysPerOctave)].map((_, index) => (
-          <Rect
-            onPointerClick={() =>
-              setPressed(pressed.map((_, i) => i === blackIndex(index)))
-            }
-            y={yStart}
-            width={blackKeyWidth}
-            height={blackKeyHeight}
-            fill={blackKeyColor}
-            stroke={"black"}
-            strokeWidth={1}
-            x={xStart + blackPosition(index)}
-            {...(pressed[blackIndex(index)] ? onClick() : null)}
-          />
-        ))}
-      </Layer>
-    </Stage>
+    <Box
+      tabIndex={-1}
+      onKeyDown={(key) =>
+        setPressed(
+          pressed.map((keyPressed, i) =>
+            i === keyToNote[key.key].id - 1 ? true : keyPressed
+          )
+        )
+      }
+      onKeyUp={(key) =>
+        setPressed(
+          pressed.map((keyPressed, i) =>
+            i === keyToNote[key.key].id - 1 ? false : keyPressed
+          )
+        )
+      }
+    >
+      <Stage width={width} height={height}>
+        <Layer>
+          {[...Array(octaves * whiteKeysPerOctave)].map((_, index) => (
+            <Rect
+              onMouseDown={() =>
+                setPressed(
+                  pressed.map((keyPressed, i) =>
+                    i === whiteIndex(index) ? true : keyPressed
+                  )
+                )
+              }
+              onMouseUp={() =>
+                setPressed(
+                  pressed.map((keyPressed, i) =>
+                    i === whiteIndex(index) ? false : keyPressed
+                  )
+                )
+              }
+              y={yStart}
+              width={whiteKeyWidth}
+              height={whiteKeyHeight}
+              fill={whiteKeyColor}
+              stroke={"black"}
+              strokeWidth={1}
+              x={xStart + whitePosition(index)}
+              {...(pressed[whiteIndex(index)]
+                ? onPress(whiteIndex(index))
+                : null)}
+            />
+          ))}
+        </Layer>
+        <Layer>
+          {[...Array(octaves * blackKeysPerOctave)].map((_, index) => (
+            <Rect
+              onMouseDown={() =>
+                setPressed(
+                  pressed.map((keyPressed, i) =>
+                    i === blackIndex(index) ? true : keyPressed
+                  )
+                )
+              }
+              onMouseUp={() =>
+                setPressed(
+                  pressed.map((keyPressed, i) =>
+                    i === blackIndex(index) ? false : keyPressed
+                  )
+                )
+              }
+              y={yStart}
+              width={blackKeyWidth}
+              height={blackKeyHeight}
+              fill={blackKeyColor}
+              stroke={"black"}
+              strokeWidth={1}
+              x={xStart + blackPosition(index)}
+              {...(pressed[blackIndex(index)]
+                ? onPress(blackIndex(index))
+                : null)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </Box>
   );
 };
 
