@@ -2,8 +2,12 @@ import { Layer, Rect, Stage } from "react-konva";
 import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 
-export interface keyToNoteMap {
-  [key: symbol]: { id: number; octave: number; note: string };
+export interface KeyToNote {
+  [key: string]: { id: number; octave: number; note: string };
+}
+
+export interface KeyboardSounds {
+  [key: string]: HTMLAudioElement;
 }
 
 interface Props {
@@ -11,7 +15,8 @@ interface Props {
   whiteKeyWidth: number;
   whiteKeyColor?: string;
   blackKeyColor?: string;
-  keyToNote: keyToNoteMap;
+  keyToNote: KeyToNote;
+  keyboardSounds: KeyboardSounds;
   onPress: (keyID: number) => NonNullable<unknown>;
 }
 
@@ -47,20 +52,25 @@ const blackPosition = (key: number) => {
   );
 };
 
+const playSound = (soundURL: string) => {
+  new Audio(soundURL).play();
+};
+
 const PianoKeyboard = ({
   octaves = 2,
   whiteKeyWidth,
   whiteKeyColor = "white",
   blackKeyColor = "black",
   keyToNote,
+  keyboardSounds,
   onPress,
 }: Props) => {
   const [pressed, setPressed] = useState([
     ...Array(octaves * keysPerOctave).fill(false),
   ]);
 
-  const width = octaves * whiteKeysPerOctave * whiteKeyWidth;
-  const height = whiteKeyHeight;
+  const width = octaves * whiteKeysPerOctave * whiteKeyWidth + xStart;
+  const height = whiteKeyHeight + yStart;
 
   return (
     <Box
