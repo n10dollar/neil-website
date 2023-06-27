@@ -7,7 +7,7 @@ export interface KeyToNote {
 }
 
 export interface KeyboardSounds {
-  [key: string]: HTMLAudioElement;
+  [keyID: number]: HTMLAudioElement;
 }
 
 interface Props {
@@ -16,7 +16,6 @@ interface Props {
   whiteKeyColor?: string;
   blackKeyColor?: string;
   keyToNote: KeyToNote;
-  keyboardSounds: KeyboardSounds;
   onPress: (keyID: number) => NonNullable<unknown>;
 }
 
@@ -52,7 +51,7 @@ const blackPosition = (key: number) => {
   );
 };
 
-const playSound = (soundURL: string) => {
+export const playSound = (soundURL: string) => {
   new Audio(soundURL).play();
 };
 
@@ -62,7 +61,6 @@ const PianoKeyboard = ({
   whiteKeyColor = "white",
   blackKeyColor = "black",
   keyToNote,
-  keyboardSounds,
   onPress,
 }: Props) => {
   const [pressed, setPressed] = useState([
