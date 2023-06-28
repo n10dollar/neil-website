@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 
 export interface KeyToNote {
-  [key: string]: { id: number; octave: number; note: string };
+  [key: string]: {
+    id: number;
+    frequency: number;
+    octave: number;
+    note: string;
+  };
 }
 
 export interface KeyboardSounds {
@@ -76,14 +81,14 @@ const PianoKeyboard = ({
       onKeyDown={(key) =>
         setPressed(
           pressed.map((keyPressed, i) =>
-            i === keyToNote[key.key].id - 1 ? true : keyPressed
+            i === keyToNote[key.key].id ? true : keyPressed
           )
         )
       }
       onKeyUp={(key) =>
         setPressed(
           pressed.map((keyPressed, i) =>
-            i === keyToNote[key.key].id - 1 ? false : keyPressed
+            i === keyToNote[key.key].id ? false : keyPressed
           )
         )
       }
