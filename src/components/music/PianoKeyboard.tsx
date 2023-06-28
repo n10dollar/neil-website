@@ -34,30 +34,25 @@ const keysPerOctave = 12;
 const whiteHeightWidthRatio = 6 / (7 / 8);
 const blackHeightWidthRatio = 3.5 / (1 / 2);
 
-const whiteKeyWidth = 60;
-const whiteKeyHeight = whiteKeyWidth * whiteHeightWidthRatio;
-const blackKeyWidth = whiteKeyWidth * (4 / 7);
-const blackKeyHeight = blackKeyWidth * blackHeightWidthRatio;
-
 const whiteIndex = (key: number) => {
   return key * 2 - Math.floor((key + 4) / 7) - Math.floor(key / 7);
 };
 const blackIndex = (key: number) => {
   return 1 + key * 2 + Math.floor((key + 3) / 5) + Math.floor(key / 5);
 };
-const whitePosition = (key: number) => {
+const whitePosition = (key: number, whiteKeyWidth: number) => {
   return key * whiteKeyWidth;
 };
-const blackPosition = (key: number) => {
+const blackPosition = (
+  key: number,
+  whiteKeyWidth: number,
+  blackKeyWidth: number
+) => {
   return (
     (key + 1 + Math.floor((key + 3) / 5) + Math.floor(key / 5)) *
       whiteKeyWidth -
     blackKeyWidth / 2
   );
-};
-
-export const playSound = (soundURL: string) => {
-  new Audio(soundURL).play();
 };
 
 const PianoKeyboard = ({
@@ -72,23 +67,27 @@ const PianoKeyboard = ({
     ...Array(octaves * keysPerOctave).fill(false),
   ]);
 
+  const whiteKeyHeight = whiteKeyWidth * whiteHeightWidthRatio;
+  const blackKeyWidth = whiteKeyWidth * (4 / 7);
+  const blackKeyHeight = blackKeyWidth * blackHeightWidthRatio;
+
   const width = octaves * whiteKeysPerOctave * whiteKeyWidth + xStart;
   const height = whiteKeyHeight + yStart;
 
   return (
     <Box
-      tabIndex={-1}
+      tabIndex={0}
       onKeyDown={(key) =>
         setPressed(
           pressed.map((keyPressed, i) =>
-            i === keyToNote[key.key].id ? true : keyPressed
+            i == keyToNote[key.key].id ? true : keyPressed
           )
         )
       }
       onKeyUp={(key) =>
         setPressed(
           pressed.map((keyPressed, i) =>
-            i === keyToNote[key.key].id ? false : keyPressed
+            i == keyToNote[key.key].id ? false : keyPressed
           )
         )
       }
@@ -117,7 +116,7 @@ const PianoKeyboard = ({
               fill={whiteKeyColor}
               stroke={"black"}
               strokeWidth={1}
-              x={xStart + whitePosition(index)}
+              x={xStart + whitePosition(index, whiteKeyWidth)}
               {...(pressed[whiteIndex(index)]
                 ? onPress(whiteIndex(index))
                 : null)}
@@ -147,7 +146,7 @@ const PianoKeyboard = ({
               fill={blackKeyColor}
               stroke={"black"}
               strokeWidth={1}
-              x={xStart + blackPosition(index)}
+              x={xStart + blackPosition(index, whiteKeyWidth, blackKeyWidth)}
               {...(pressed[blackIndex(index)]
                 ? onPress(blackIndex(index))
                 : null)}

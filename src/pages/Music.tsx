@@ -7,12 +7,11 @@ import {
 } from "utils/soundGenerator.ts";
 import keyToNote from "utils/piano-key-map.json";
 
+// https://pages.mtu.edu/~suits/notefreqs.html
+
 const keyPress = (keyID: number) => {
-  // console.log(keyID);
-  // playSound(keyID);
   let targetFrequency = 50;
   for (const key in keyToNote) {
-    // console.log(keyToNote[key].frequency);
     if (keyToNote[key].id == keyID) {
       targetFrequency = keyToNote[key].frequency;
       break;
@@ -31,8 +30,8 @@ const Music = () => {
       <div>Music</div>
       <Center>
         <PianoKeyboard
-          octaves={1}
-          whiteKeyWidth={60}
+          octaves={2}
+          whiteKeyWidth={70}
           keyToNote={keyToNote}
           onPress={keyPress}
         />

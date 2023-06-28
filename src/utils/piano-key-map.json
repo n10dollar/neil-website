@@ -14,7 +14,7 @@
   "m": {"id": "11", "frequency": "61.74", "octave": "1", "note": "B"},
 
 
-  "q": {"id": "12", "frequency": "30.0", "octave": "2", "note": "C"},
+  "q": {"id": "12", "frequency": "65.41", "octave": "2", "note": "C"},
   "2": {"id": "13", "frequency": "30.0", "octave": "2", "note": "C#"},
   "w": {"id": "14", "frequency": "30.0", "octave": "2", "note": "D"},
   "3": {"id": "15", "frequency": "30.0", "octave": "2", "note": "D#"},
