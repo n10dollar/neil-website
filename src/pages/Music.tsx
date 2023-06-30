@@ -1,28 +1,29 @@
 import { Center } from "@chakra-ui/react";
-import PianoKeyboard from "components/music/PianoKeyboard.tsx";
+import PianoKeyboard, {
+  findFreqWithID,
+  octave,
+} from "components/music/PianoKeyboard.tsx";
 import {
   generateWaveArray,
   playWaveform,
   sawSnapshot,
+  squareSnapshot,
 } from "utils/soundGenerator.ts";
 import keyToNote from "utils/piano-key-map.json";
 
 // https://pages.mtu.edu/~suits/notefreqs.html
 
-const keyPress = (keyID: number) => {
-  let targetFrequency = 50;
-  for (const key in keyToNote) {
-    if (keyToNote[key].id == keyID) {
-      targetFrequency = keyToNote[key].frequency;
-      break;
-    }
-  }
-  const wavePoints = generateWaveArray(1000, targetFrequency, sawSnapshot);
-  console.log(targetFrequency);
-  console.log(wavePoints);
+const keyPressFunc = (keyID: number) => {
+  const wavePoints = generateWaveArray(
+    1000,
+    findFreqWithID(keyID, keyToNote) * octave(4),
+    squareSnapshot
+  );
   playWaveform(wavePoints);
-  return { fill: "red" };
+  console.log(wavePoints);
 };
+
+const keyPressProps = { fill: "lightblue" };
 
 const Music = () => {
   return (
@@ -30,10 +31,11 @@ const Music = () => {
       <div>Music</div>
       <Center>
         <PianoKeyboard
-          octaves={2}
+          octaves={1}
           whiteKeyWidth={70}
           keyToNote={keyToNote}
-          onPress={keyPress}
+          onPressProps={keyPressProps}
+          onPressFunc={keyPressFunc}
         />
       </Center>
     </>

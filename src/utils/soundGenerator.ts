@@ -1,3 +1,35 @@
+// point is snapshot of wave at current point from 0 to 2 * pi
+export function sawSnapshot(fundamental: number, point: number): number {
+  const upperLimit = 20_000;
+
+  let audioPoint = 0;
+  let harmonicMultiple = 1;
+
+  while (harmonicMultiple * fundamental <= upperLimit) {
+    audioPoint +=
+      (1 / harmonicMultiple) * Math.sin(point * fundamental * harmonicMultiple);
+    harmonicMultiple++;
+  }
+
+  return audioPoint;
+}
+export function squareSnapshot(fundamental: number, point: number): number {
+  const upperLimit = 20_000;
+
+  let audioPoint = 0;
+  let harmonicMultiple = 1;
+  const coefficient = (harmonicMultiple: number) => 2 * harmonicMultiple - 1;
+
+  while (fundamental * coefficient(harmonicMultiple) <= upperLimit) {
+    audioPoint +=
+      (1 / coefficient(harmonicMultiple)) *
+      Math.sin(point * fundamental * coefficient(harmonicMultiple));
+    harmonicMultiple++;
+  }
+
+  return audioPoint;
+}
+
 export function generateWaveArray(
   sampleRate: number,
   fundamental: number,
@@ -5,7 +37,10 @@ export function generateWaveArray(
 ): number[] {
   const waveArray = [];
   for (let i = 0; i < sampleRate; i++) {
-    waveArray[i] = waveSnapshot(fundamental, (i / sampleRate) * (2 * Math.PI));
+    waveArray[i] = waveSnapshot(
+      fundamental,
+      (i / sampleRate) * ((2 * Math.PI) / 32.7)
+    );
   }
   const max = Math.max(...waveArray);
   for (let i = 0; i < sampleRate; i++) {
@@ -13,21 +48,6 @@ export function generateWaveArray(
   }
 
   return waveArray;
-}
-
-// phase is snapshot of wave at current point from 0 to 2 * pi
-export function sawSnapshot(fundamental: number, point: number): number {
-  const upperLimit = 20_000;
-
-  let audioPoint = 0;
-  let harmonic = fundamental;
-
-  while (harmonic <= upperLimit) {
-    audioPoint += (fundamental / harmonic) * Math.sin(point * harmonic);
-    harmonic += fundamental;
-  }
-
-  return audioPoint;
 }
 
 export function playWaveform(wavePoints: number[]) {

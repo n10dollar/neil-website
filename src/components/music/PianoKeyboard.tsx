@@ -1,6 +1,7 @@
 import { Layer, Rect, Stage } from "react-konva";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
+import keyToNote from "utils/piano-key-map.json";
 
 export interface KeyToNote {
   [key: string]: {
@@ -11,17 +12,14 @@ export interface KeyToNote {
   };
 }
 
-export interface KeyboardSounds {
-  [keyID: number]: HTMLAudioElement;
-}
-
 interface Props {
   octaves: number;
   whiteKeyWidth: number;
   whiteKeyColor?: string;
   blackKeyColor?: string;
   keyToNote: KeyToNote;
-  onPress: (keyID: number) => NonNullable<unknown>;
+  onPressProps: NonNullable<unknown>;
+  onPressFunc: (keyID: number) => void;
 }
 
 const xStart = 0;
@@ -55,17 +53,37 @@ const blackPosition = (
   );
 };
 
+export function findFreqWithID(keyID: number, keyToNote) {
+  for (const key in keyToNote) {
+    if (keyToNote[key].id == keyID) return keyToNote[key].frequency;
+  }
+}
+
+export function octave(octave: number) {
+  return Math.pow(2, octave - 1);
+}
+
 const PianoKeyboard = ({
   octaves = 2,
   whiteKeyWidth,
   whiteKeyColor = "white",
   blackKeyColor = "black",
   keyToNote,
-  onPress,
+  onPressProps,
+  onPressFunc,
 }: Props) => {
   const [pressed, setPressed] = useState([
     ...Array(octaves * keysPerOctave).fill(false),
   ]);
+  useEffect(() => {
+    const keysActive: number[] = [];
+    pressed.map((key, index) => (key ? keysActive.push(index) : null));
+    const interval = setInterval(() => {
+      keysActive.map((key: number) => onPressFunc(key));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [pressed]);
 
   const whiteKeyHeight = whiteKeyWidth * whiteHeightWidthRatio;
   const blackKeyWidth = whiteKeyWidth * (4 / 7);
@@ -117,9 +135,7 @@ const PianoKeyboard = ({
               stroke={"black"}
               strokeWidth={1}
               x={xStart + whitePosition(index, whiteKeyWidth)}
-              {...(pressed[whiteIndex(index)]
-                ? onPress(whiteIndex(index))
-                : null)}
+              {...(pressed[whiteIndex(index)] ? onPressProps : null)}
             />
           ))}
         </Layer>
@@ -147,9 +163,7 @@ const PianoKeyboard = ({
               stroke={"black"}
               strokeWidth={1}
               x={xStart + blackPosition(index, whiteKeyWidth, blackKeyWidth)}
-              {...(pressed[blackIndex(index)]
-                ? onPress(blackIndex(index))
-                : null)}
+              {...(pressed[blackIndex(index)] ? onPressProps : null)}
             />
           ))}
         </Layer>
